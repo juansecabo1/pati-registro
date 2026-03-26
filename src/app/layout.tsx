@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Registro de Pati",
-  description: "Registra tu perfil para chatear con Pati, el asistente virtual de la Escuela Colegio Pestalozziano.",
+  description: "Registra tu perfil para chatear con Pati, el asistente virtual de la Colegio Pestalozziano.",
   icons: {
     icon: "/escudo.webp",
     apple: "/escudo.webp",

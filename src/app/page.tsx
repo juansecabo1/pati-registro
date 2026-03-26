@@ -48,7 +48,7 @@ export default function Home() {
         <div className="text-center mb-6 animate-fade-in">
           <Image
             src="/escudo.webp"
-            alt="Escudo Escuela Colegio Pestalozziano"
+            alt="Escudo Colegio Pestalozziano"
             width={110}
             height={110}
             className="mx-auto mb-3"
@@ -57,7 +57,7 @@ export default function Home() {
             Registro de Pati
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Escuela Colegio Pestalozziano
+            Colegio Pestalozziano
           </p>
         </div>
 
