@@ -36,7 +36,6 @@ export function PasoResumen({
   contrasena,
   padreCodigo,
   padreNombre,
-  padreNumEstudiantes,
   padreEstudiantes,
   credentialStep,
   identificationStep,
@@ -57,54 +56,46 @@ export function PasoResumen({
       </p>
 
       <div className="space-y-4 max-w-md mx-auto">
-        {/* Profile type */}
+        {/* Profile type - no edit */}
         <Card className="p-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <span className="text-sm text-muted-foreground">Perfil</span>
-              <p className="font-semibold text-foreground">{perfil}</p>
-            </div>
-            <button
-              onClick={() => onEdit(1)}
-              className="text-sm text-primary font-medium hover:underline cursor-pointer"
-            >
-              Cambiar
-            </button>
+          <div>
+            <span className="text-sm text-muted-foreground">Perfil</span>
+            <p className="font-semibold text-foreground">{perfil}</p>
           </div>
         </Card>
 
-        {/* Student info */}
+        {/* Student info - only document is editable */}
         {perfil === "Estudiante" && estudiante && (
           <Card className="p-4">
-            <div className="flex justify-between items-start">
-              <div className="space-y-2">
-                <div>
-                  <span className="text-sm text-muted-foreground">Estudiante</span>
-                  <p className="font-semibold text-foreground">
-                    {estudiante.nombre} {estudiante.apellidos}
-                  </p>
-                </div>
+            <div className="space-y-2">
+              <div>
+                <span className="text-sm text-muted-foreground">Estudiante</span>
+                <p className="font-semibold text-foreground">
+                  {estudiante.nombre} {estudiante.apellidos}
+                </p>
+              </div>
+              <div className="flex justify-between items-center">
                 <div>
                   <span className="text-sm text-muted-foreground">Documento</span>
                   <p className="font-medium text-foreground">{estudiante.id}</p>
                 </div>
-                <div className="flex gap-4">
-                  <div>
-                    <span className="text-sm text-muted-foreground">Grado</span>
-                    <p className="font-medium text-foreground">{estudiante.grado}</p>
-                  </div>
-                  <div>
-                    <span className="text-sm text-muted-foreground">Salón</span>
-                    <p className="font-medium text-foreground">{estudiante.salon}</p>
-                  </div>
+                <button
+                  onClick={() => onEdit(1)}
+                  className="text-sm text-primary font-medium hover:underline cursor-pointer"
+                >
+                  Cambiar
+                </button>
+              </div>
+              <div className="flex gap-4">
+                <div>
+                  <span className="text-sm text-muted-foreground">Grado</span>
+                  <p className="font-medium text-foreground">{estudiante.grado}</p>
+                </div>
+                <div>
+                  <span className="text-sm text-muted-foreground">Salón</span>
+                  <p className="font-medium text-foreground">{estudiante.salon}</p>
                 </div>
               </div>
-              <button
-                onClick={() => onEdit(2)}
-                className="text-sm text-primary font-medium hover:underline cursor-pointer"
-              >
-                Cambiar
-              </button>
             </div>
           </Card>
         )}
@@ -113,17 +104,9 @@ export function PasoResumen({
         {perfil === "Padre de familia" && (
           <>
             <Card className="p-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <span className="text-sm text-muted-foreground">Nombre</span>
-                  <p className="font-semibold text-foreground">{padreNombre}</p>
-                </div>
-                <button
-                  onClick={() => onEdit(2)}
-                  className="text-sm text-primary font-medium hover:underline cursor-pointer"
-                >
-                  Cambiar
-                </button>
+              <div>
+                <span className="text-sm text-muted-foreground">Nombre</span>
+                <p className="font-semibold text-foreground">{padreNombre}</p>
               </div>
             </Card>
 
@@ -135,7 +118,7 @@ export function PasoResumen({
                     <p className="font-semibold text-foreground">{padreCodigo}</p>
                   </div>
                   <button
-                    onClick={() => onEdit(identificationStep || 3)}
+                    onClick={() => onEdit(identificationStep || 2)}
                     className="text-sm text-primary font-medium hover:underline cursor-pointer"
                   >
                     Cambiar
@@ -144,44 +127,23 @@ export function PasoResumen({
               </Card>
             )}
 
-            <Card className="p-4">
-              <div className="flex justify-between items-center">
-                <div>
-                  <span className="text-sm text-muted-foreground">Estudiantes a cargo</span>
-                  <p className="font-semibold text-foreground">{padreNumEstudiantes}</p>
-                </div>
-                <button
-                  onClick={() => onEdit(4)}
-                  className="text-sm text-primary font-medium hover:underline cursor-pointer"
-                >
-                  Cambiar
-                </button>
-              </div>
-            </Card>
-
-            {padreEstudiantes?.map((est, i) => (
-              <Card key={i} className="p-4">
-                <div className="flex justify-between items-start">
-                  <div className="space-y-1">
-                    <span className="text-sm text-muted-foreground">
-                      Estudiante {i + 1}
-                    </span>
-                    <p className="font-semibold text-foreground">
-                      {est.nombre} {est.apellidos}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Doc: {est.id} · {est.grado} - Salón {est.salon}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => onEdit(5 + i * 2)}
-                    className="text-sm text-primary font-medium hover:underline cursor-pointer"
-                  >
-                    Cambiar
-                  </button>
+            {padreEstudiantes && padreEstudiantes.length > 0 && (
+              <Card className="p-4">
+                <span className="text-sm text-muted-foreground">Estudiantes a cargo</span>
+                <div className="space-y-2 mt-2">
+                  {padreEstudiantes.map((est, i) => (
+                    <div key={i} className="bg-accent/50 rounded p-2">
+                      <p className="font-semibold text-foreground text-sm">
+                        {est.nombre} {est.apellidos}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {est.grado} {est.salon}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </Card>
-            ))}
+            )}
           </>
         )}
 
