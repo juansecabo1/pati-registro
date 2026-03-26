@@ -21,6 +21,19 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ yaRegistrado: true });
   }
 
+  // Also check with local phone (without 57)
+  if (!perfil) {
+    const { data: perfilLocal } = await supabase
+      .from("Perfiles_Generales")
+      .select("perfil, contrasena")
+      .eq("numero_de_telefono", phoneLocal)
+      .maybeSingle();
+
+    if (perfilLocal && perfilLocal.contrasena) {
+      return NextResponse.json({ yaRegistrado: true });
+    }
+  }
+
   // 2. Check if phone exists in Estudiantes.telefono_acudiente
   const { data: estudiantes } = await supabase
     .from("Estudiantes")
