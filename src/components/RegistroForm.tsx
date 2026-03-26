@@ -287,6 +287,11 @@ export function RegistroForm({ contactId }: { contactId: string }) {
       return (
         <>
           <ProgressBar currentStep={1} totalSteps={4} />
+          <div className="text-center mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <p className="text-sm text-amber-800">
+              Esta plataforma de registro es solo para estudiantes. Si eres acudiente, comunícate con la institución.
+            </p>
+          </div>
           <PasoCodigoEstudiante
             perfil="Estudiante"
             onValidado={(id, est) => {
