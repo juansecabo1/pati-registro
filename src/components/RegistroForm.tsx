@@ -173,7 +173,7 @@ export function RegistroForm({ contactId }: { contactId: string }) {
                 Hola, {nombreAcudiente}
               </h2>
               <p className="text-muted-foreground text-sm">
-                Detectamos que eres acudiente de {hijosDetectados.length === 1 ? "el siguiente estudiante" : "los siguientes estudiantes"}:
+                Detecté que eres acudiente de {hijosDetectados.length === 1 ? "el siguiente estudiante" : "los siguientes estudiantes"}:
               </p>
             </div>
 
