@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       data.padre_numero_de_estudiantes = campos.padre_numero_de_estudiantes;
     }
 
-    const numMap: Record<string, number> = { "1 (uno)": 1, "2 (dos)": 2, "3 (tres)": 3 };
+    const numMap: Record<string, number> = { "1 (uno)": 1, "2 (dos)": 2, "3 (tres)": 3, "4 (cuatro)": 4 };
     const num = numMap[campos.padre_numero_de_estudiantes] || 0;
 
     for (let i = 1; i <= num; i++) {
