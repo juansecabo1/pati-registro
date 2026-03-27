@@ -21,7 +21,7 @@ export function PasoYaRegistrado() {
         Tu perfil ya fue completado anteriormente. ¡Puedes volver a WhatsApp y chatear conmigo!
       </p>
       <a
-        href="https://wa.me/573002883078"
+        href="https://wa.me/573024487075"
         target="_blank"
         rel="noopener noreferrer"
       >
