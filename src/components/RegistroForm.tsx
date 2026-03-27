@@ -195,7 +195,7 @@ export function RegistroForm({ contactId }: { contactId: string }) {
                 onClick={() => setStatus("not_acudiente")}
                 className="flex-1 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-accent transition-colors cursor-pointer"
               >
-                No soy acudiente
+                {hijosDetectados.length === 1 ? "No es mi estudiante" : "No son mis estudiantes"}
               </button>
               <button
                 onClick={() => setStep(2)}
