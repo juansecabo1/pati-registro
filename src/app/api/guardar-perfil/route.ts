@@ -9,8 +9,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
   }
 
+  console.log("[guardar-perfil] Received:", JSON.stringify(body));
+
   // Build the data object
-  const data: Record<string, string | null> = {
+  const data: Record<string, any> = {
     numero_de_telefono: id,
     perfil,
   };
@@ -23,7 +25,7 @@ export async function POST(request: NextRequest) {
     if (!campos.estudiante_id) {
       return NextResponse.json({ error: "Falta el id estudiantil" }, { status: 400 });
     }
-    data.estudiante_id = campos.estudiante_id;
+    data.estudiante_id = parseInt(campos.estudiante_id, 10);
   } else if (perfil === "Padre de familia") {
     if (!campos.padre_nombre) {
       return NextResponse.json({ error: "Faltan datos del padre" }, { status: 400 });
@@ -42,7 +44,7 @@ export async function POST(request: NextRequest) {
     for (let i = 1; i <= num; i++) {
       const idKey = `padre_estudiante${i}_id`;
       if (campos[idKey]) {
-        data[idKey] = campos[idKey];
+        data[idKey] = parseInt(campos[idKey], 10);
       }
     }
   }
