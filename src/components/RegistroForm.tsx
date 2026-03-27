@@ -27,7 +27,7 @@ interface FormState {
   padreEstudiantes: EstudianteInfo[];
 }
 
-type PageStatus = "loading" | "already_registered" | "padre_greeting" | "student_flow" | "success";
+type PageStatus = "loading" | "already_registered" | "padre_greeting" | "student_flow" | "not_acudiente" | "success";
 
 export function RegistroForm({ contactId }: { contactId: string }) {
   const [status, setStatus] = useState<PageStatus>("loading");
@@ -123,6 +123,29 @@ export function RegistroForm({ contactId }: { contactId: string }) {
   }
 
   if (status === "already_registered") return <PasoYaRegistrado />;
+
+  if (status === "not_acudiente") {
+    return (
+      <div className="animate-fade-in text-center py-4">
+        <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <svg className="w-10 h-10 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+          </svg>
+        </div>
+        <h2 className="text-xl font-bold text-foreground mb-2">Comunícate con el colegio</h2>
+        <p className="text-muted-foreground text-sm mb-6">
+          Si la información no es correcta o no eres acudiente, por favor comunícate con la institución para resolver tu situación.
+        </p>
+        <button
+          onClick={() => { setStatus("padre_greeting"); setStep(1); }}
+          className="py-3 px-6 rounded-lg border border-border text-foreground font-medium hover:bg-accent transition-colors cursor-pointer"
+        >
+          Volver atrás
+        </button>
+      </div>
+    );
+  }
+
   if (status === "success") return (
     <PasoExito perfil={form.perfil} padreNombre={form.padreNombre} padreNumEstudiantes={
       form.padreEstudiantes.length === 1 ? "1 (uno)" : form.padreEstudiantes.length === 2 ? "2 (dos)" : "3 (tres)"
@@ -169,19 +192,14 @@ export function RegistroForm({ contactId }: { contactId: string }) {
 
             <div className="flex gap-3">
               <button
-                onClick={() => {
-                  // Not parent, switch to student flow
-                  setForm({ perfil: "Estudiante", padreEstudiantes: [] });
-                  setStatus("student_flow");
-                  setStep(1);
-                }}
-                className="flex-1 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-accent transition-colors"
+                onClick={() => setStatus("not_acudiente")}
+                className="flex-1 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-accent transition-colors cursor-pointer"
               >
                 No soy acudiente
               </button>
               <button
                 onClick={() => setStep(2)}
-                className="flex-1 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors"
+                className="flex-1 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors cursor-pointer"
               >
                 Sí, confirmo
               </button>
@@ -218,14 +236,14 @@ export function RegistroForm({ contactId }: { contactId: string }) {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="flex-1 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-accent transition-colors"
+                  className="flex-1 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-accent transition-colors cursor-pointer"
                 >
                   Atrás
                 </button>
                 <button
                   type="submit"
                   disabled={!form.padreId || form.padreId.length < 5}
-                  className="flex-1 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   Siguiente
                 </button>
