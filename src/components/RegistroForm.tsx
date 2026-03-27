@@ -148,7 +148,7 @@ export function RegistroForm({ contactId }: { contactId: string }) {
 
   if (status === "success") return (
     <PasoExito perfil={form.perfil} padreNombre={form.padreNombre} padreNumEstudiantes={
-      form.padreEstudiantes.length === 1 ? "1 (uno)" : form.padreEstudiantes.length === 2 ? "2 (dos)" : form.padreEstudiantes.length === 3 ? "3 (tres)" : "4 (cuatro)"
+      form.padreEstudiantes.length === 1 ? "1 (uno)" : form.padreEstudiantes.length === 2 ? "2 (dos)" : "3 (tres)"
     } />
   );
 
@@ -281,7 +281,7 @@ export function RegistroForm({ contactId }: { contactId: string }) {
             padreCodigo={form.padreId}
             contrasena={form.contrasena}
             padreNumEstudiantes={
-              form.padreEstudiantes.length === 1 ? "1 (uno)" : form.padreEstudiantes.length === 2 ? "2 (dos)" : form.padreEstudiantes.length === 3 ? "3 (tres)" : "4 (cuatro)"
+              form.padreEstudiantes.length === 1 ? "1 (uno)" : form.padreEstudiantes.length === 2 ? "2 (dos)" : "3 (tres)"
             }
             padreEstudiantes={form.padreEstudiantes}
             credentialStep={3}
