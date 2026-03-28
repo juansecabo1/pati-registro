@@ -43,12 +43,6 @@ export async function GET(request: NextRequest) {
   if (estudiantes && estudiantes.length > 0) {
     // It's a parent - get acudiente name from first match
     const nombreAcudiente = estudiantes[0].nombre_acudiente || "";
-    const gradoOrden: Record<string, number> = {
-      "Párvulo": 0, "Pre-Jardín": 1, "Jardín": 2, "Transición": 3,
-      "Primero": 4, "Segundo": 5, "Tercero": 6, "Cuarto": 7, "Quinto": 8,
-      "Sexto": 9, "Séptimo": 10, "Octavo": 11, "Noveno": 12,
-      "Décimo": 13, "Undécimo": 14,
-    };
     const hijos = estudiantes.map((e: any) => ({
       id: String(e.id_estudiantil),
       nombre: e.nombre_estudiante,
@@ -56,12 +50,7 @@ export async function GET(request: NextRequest) {
       nivel: e.nivel_estudiante,
       grado: e.grado_estudiante,
       salon: e.salon_estudiante,
-    })).sort((a: any, b: any) => {
-      const ga = gradoOrden[a.grado] ?? 99;
-      const gb = gradoOrden[b.grado] ?? 99;
-      if (ga !== gb) return ga - gb;
-      return (a.salon || "").localeCompare(b.salon || "");
-    });
+    }));
 
     return NextResponse.json({
       yaRegistrado: false,
