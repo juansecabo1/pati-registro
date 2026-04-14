@@ -34,15 +34,29 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // 2. Check if phone exists in Estudiantes.telefono_acudiente
-  const { data: estudiantes } = await supabase
-    .from("Estudiantes")
-    .select("id_estudiantil, nombre_estudiante, apellidos_estudiante, nivel_estudiante, grado_estudiante, salon_estudiante, nombre_acudiente, telefono_acudiente")
-    .contains("telefono_acudiente", [phoneLocal]);
+  // 2. Check if phone exists in any of Estudiantes.telefono_acudiente{,2,3}
+  const selectCols = "id_estudiantil, nombre_estudiante, apellidos_estudiante, nivel_estudiante, grado_estudiante, salon_estudiante, nombre_acudiente, telefono_acudiente, nombre_acudiente2, telefono_acudiente2, nombre_acudiente3, telefono_acudiente3";
+  const [r1, r2, r3] = await Promise.all([
+    supabase.from("Estudiantes").select(selectCols).contains("telefono_acudiente", [phoneLocal]),
+    supabase.from("Estudiantes").select(selectCols).contains("telefono_acudiente2", [phoneLocal]),
+    supabase.from("Estudiantes").select(selectCols).contains("telefono_acudiente3", [phoneLocal]),
+  ]);
 
-  if (estudiantes && estudiantes.length > 0) {
-    // It's a parent - get acudiente name from first match
-    const nombreAcudiente = estudiantes[0].nombre_acudiente || "";
+  const porEstudiante = new Map<number, { row: any; slot: 1 | 2 | 3 }>();
+  for (const row of r1.data || []) if (!porEstudiante.has(row.id_estudiantil)) porEstudiante.set(row.id_estudiantil, { row, slot: 1 });
+  for (const row of r2.data || []) if (!porEstudiante.has(row.id_estudiantil)) porEstudiante.set(row.id_estudiantil, { row, slot: 2 });
+  for (const row of r3.data || []) if (!porEstudiante.has(row.id_estudiantil)) porEstudiante.set(row.id_estudiantil, { row, slot: 3 });
+
+  const matches = Array.from(porEstudiante.values());
+
+  if (matches.length > 0) {
+    // It's a parent - get acudiente name from the slot that matched in the first student
+    const first = matches[0];
+    const nombreAcudiente =
+      (first.slot === 1 ? first.row.nombre_acudiente :
+       first.slot === 2 ? first.row.nombre_acudiente2 :
+       first.row.nombre_acudiente3) || "";
+    const estudiantes = matches.map(m => m.row);
     const gradoOrden: Record<string, number> = {
       "Párvulo": 0, "Pre-Jardín": 1, "Jardín": 2, "Transición": 3,
       "Primero": 4, "Segundo": 5, "Tercero": 6, "Cuarto": 7, "Quinto": 8,
